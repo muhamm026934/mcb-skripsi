@@ -114,7 +114,7 @@ class _LoginState extends State<Login> {
             values == "1"? Colors.greenAccent : Colors.red ,
             (){ Navigator.pop(context, 'Cancel'); },
             (){ Navigator.pop(context, 'Cancel'); },
-            "Close","",
+            "Keluar","",
             Colors.white,
             Colors.black,      
             Colors.red,      

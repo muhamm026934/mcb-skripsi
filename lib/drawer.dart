@@ -168,8 +168,9 @@ class _DrawersState extends State<Drawers> {
                     textColor: Colors.white,),
                   ),
                 ),
-              ),                           
-              GestureDetector(
+              ),    
+              level == "admin"                       
+              ? GestureDetector(
                 onTap: (){
                   PageRoutes.routeToUser(context);
                 },
@@ -195,8 +196,9 @@ class _DrawersState extends State<Drawers> {
                     textColor: Colors.white,),
                   ),
                 ),
-              ),  
-              GestureDetector(
+              ):Container(),  
+              level == "admin"  
+              ? GestureDetector(
                 onTap: (){
                   PageRoutes.routeToKajian(context);
                 },
@@ -220,7 +222,7 @@ class _DrawersState extends State<Drawers> {
                     textColor: Colors.white,),
                   ),
                 ),
-              ),              
+              ):Container(),              
               name != ""             
               ? GestureDetector(
                 onTap: (){

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mcb/api.dart';
 import 'package:mcb/drawer.dart';
+import 'package:mcb/page_routes.dart';
 import 'package:mcb/poslist.dart';
 import 'package:mcb/service.dart';
 
@@ -109,7 +110,12 @@ class _UserState extends State<User> {
           _commandAlertMessage("", "", false);
           _commandFormUpdateAdd("", false);
           _commandAlertMessageResponse(values, message, true);
-          _getDataUser("","","","","","");
+          if (level == "admin") {
+          _getDataUser("","","","","","");            
+          }else{
+          PageRoutes.routeToLogin(context);  
+          }
+
           _messageUpload.clear();
           _clearCtext();    
           message ="";
@@ -498,7 +504,7 @@ bool appBarf = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: level != "" ? const Drawers() : Container(),
+      drawer: const Drawers(),
         appBar: AppBar(
           backgroundColor: Colors.green,
           foregroundColor: Colors.white,
