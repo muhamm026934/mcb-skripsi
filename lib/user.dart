@@ -301,177 +301,186 @@ class _UserState extends State<User> {
   }
 
   _formUpdateAdd(){
-    return Center(
-      child: Card(
-        child: Padding(
-          padding: const EdgeInsets.all(2.0),
-          child: SizedBox(
-            width: MediaQuery.of(context).size.width* 0.8,
-            height: MediaQuery.of(context).size.height* 0.9,
-            child: ListView(
-              children:  [
-                Padding(
-                  padding: const EdgeInsets.only(left :12.0,right :5.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(textFormUpdateAdd),
-                      IconButton(
-                        color: Colors.red,
-                        onPressed: (){
-                          _commandFormUpdateAdd("", false);
-                        }, icon: const Icon(Icons.close,size: 20.0,)),
-                    ],
-                  ),
-                ),
-                Card(
-                  child: Padding(
-                    padding: const EdgeInsets.all(2.0),
-                    child: TextField(
-                      enabled: true,
-                      controller: cName,
-                      decoration: const InputDecoration(
-                      enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.blue)
-                        ),
-                        label: Text("Nama",style: TextStyle(fontSize: 10,color: Colors.blue),),
-                      ), 
-                    ),
-                  ),
-                ),
-                Card(
-                  child: Padding(
-                    padding: const EdgeInsets.all(2.0),
-                    child: TextField(
-                      enabled: true,
-                      controller: cUsername,
-                      decoration: const InputDecoration(
-                      enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.blue)
-                        ),
-                        label: Text("Username",style: TextStyle(fontSize: 10,color: Colors.blue),),
-                      ), 
-                    ),
-                  ),
-                ),  
-                Card(
-                  child: Padding(
-                    padding: const EdgeInsets.all(2.0),
-                    child: TextField(
-                      enabled: true,
-                      obscureText: true,
-                      controller: cPassword1,
-                      decoration: const InputDecoration(
-                      enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.blue)
-                        ),
-                        label: Text("Password",style: TextStyle(fontSize: 10,color: Colors.blue),),
-                      ), 
-                    ),
-                  ),
-                ), 
-                Card(
-                  child: Padding(
-                    padding: const EdgeInsets.all(2.0),
-                    child: TextField(
-                      enabled: true,
-                      obscureText: true,
-                      controller: cPassword2,
-                      decoration: const InputDecoration(
-                      enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.blue)
-                        ),
-                        label: Text("Ketik Ulang Password",style: TextStyle(fontSize: 10,color: Colors.blue),),
-                      ), 
-                    ),
-                  ),
-                ),                  
-                Card(
-                  child: Padding(
-                    padding: const EdgeInsets.all(2.0),
-                    child: TextField(
-                      enabled: true,
-                      controller: cAddress,
-                      decoration: const InputDecoration(
-                      enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.blue)
-                        ),
-                        label: Text("Alamat",style: TextStyle(fontSize: 10,color: Colors.blue),),
-                      ), 
-                    ),
-                  ),
-                ), 
-                Card(
-                  child: Padding(
-                    padding: const EdgeInsets.all(2.0),
-                    child: TextField(
-                      enabled: true,
-                      controller: cEmail,
-                      maxLines: 2,
-                      decoration: const InputDecoration(
-                      enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.blue)
-                        ),
-                        label: Text("Email",style: TextStyle(fontSize: 10,color: Colors.blue),),
-                      ), 
-                    ),
-                  ),
-                ), 
-                Card(
-                  child: Padding(
-                    padding: const EdgeInsets.all(2.0),
-                    child: TextField(
-                      keyboardType: TextInputType.number,                      
-                      enabled: true,
-                      controller: cNoTelp,
-                      maxLines: 2,
-                      decoration: const InputDecoration(
-                      enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.blue)
-                        ),
-                        label: Text("Nomor Telepon",style: TextStyle(fontSize: 10,color: Colors.blue),),
-                      ), 
-                    ),
-                  ),
-                ),        
-                TextButton.icon(onPressed: (){
-                  radioButtons("admin");
-                }, icon: Icon(cLevel.text =="admin"?Icons.radio_button_on:Icons.radio_button_off), label: const Text("Admin")), 
-                TextButton.icon(onPressed: (){
-                  radioButtons("user");
-                }, icon: Icon(cLevel.text =="user" || cLevel.text ==""?Icons.radio_button_on:Icons.radio_button_off), label: const Text("User")),                                                                         
-                Center(
-                  child: Padding(
-                    padding: const EdgeInsets.only(top:8.0),
+    return Container(
+      color: Colors.black45,
+      child: Center(
+        child: Card(
+          child: Padding(
+            padding: const EdgeInsets.all(2.0),
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width* 0.9,
+              height: MediaQuery.of(context).size.height* 0.9,
+              child: ListView(
+                children:  [
+                  Padding(
+                    padding: const EdgeInsets.only(left :12.0,right :5.0),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Card(
-                          color: Colors.green,
-                          child: TextButton(
-                            style: TextButton.styleFrom(
-                            backgroundColor: Colors.transparent,
-                            shadowColor: Colors.transparent,
-                            surfaceTintColor: Colors.blue,
-                            padding: const EdgeInsets.all(10.0),
-                            textStyle: const TextStyle(fontSize: 12),
-                            ), child: const Text('Simpan Data',style: TextStyle(color: Colors.white),),
-                            onPressed: (){
-                              textFormUpdateAdd == ApiUrl.tambahUserText
-                              ?_commandAlertMessage(ApiUrl.tambahUserText,"Pastikan Data Benar",true)
-                              :textFormUpdateAdd == ApiUrl.editUserText
-                              ?_commandAlertMessage(ApiUrl.editUserText,"Apakah Data User Akan Diubah ?",true)
-                              :textFormUpdateAdd == ApiUrl.deleteUserText
-                              ?_commandAlertMessage(ApiUrl.deleteUserText,"Apakah Data User Akan Dihapus ?",true)
-                              :_commandFormUpdateAdd("", false);
-                            },
-                          ),
-                        ),                     
+                        Text(textFormUpdateAdd),
+                        IconButton(
+                          color: Colors.red,
+                          onPressed: (){
+                            _commandFormUpdateAdd("", false);
+                          }, icon: const Icon(Icons.close,size: 20.0,)),
                       ],
                     ),
                   ),
-                ),                                                                          
-              ],
+                  Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(2.0),
+                      child: TextField(
+                        enabled: true,
+                        controller: cName,
+                        decoration: const InputDecoration(
+                        enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.blue)
+                          ),
+                          label: Text("Nama",style: TextStyle(fontSize: 10,color: Colors.blue),),
+                        ), 
+                      ),
+                    ),
+                  ),
+                  Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(2.0),
+                      child: TextField(
+                        enabled: true,
+                        controller: cUsername,
+                        decoration: const InputDecoration(
+                        enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.blue)
+                          ),
+                          label: Text("Username",style: TextStyle(fontSize: 10,color: Colors.blue),),
+                        ), 
+                      ),
+                    ),
+                  ),  
+                  Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(2.0),
+                      child: TextField(
+                        enabled: true,
+                        obscureText: true,
+                        controller: cPassword1,
+                        decoration: const InputDecoration(
+                        enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.blue)
+                          ),
+                          label: Text("Password",style: TextStyle(fontSize: 10,color: Colors.blue),),
+                        ), 
+                      ),
+                    ),
+                  ), 
+                  Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(2.0),
+                      child: TextField(
+                        enabled: true,
+                        obscureText: true,
+                        controller: cPassword2,
+                        decoration: const InputDecoration(
+                        enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.blue)
+                          ),
+                          label: Text("Ketik Ulang Password",style: TextStyle(fontSize: 10,color: Colors.blue),),
+                        ), 
+                      ),
+                    ),
+                  ),                  
+                  Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(2.0),
+                      child: TextField(
+                        enabled: true,
+                        controller: cAddress,
+                        decoration: const InputDecoration(
+                        enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.blue)
+                          ),
+                          label: Text("Alamat",style: TextStyle(fontSize: 10,color: Colors.blue),),
+                        ), 
+                      ),
+                    ),
+                  ), 
+                  Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(2.0),
+                      child: TextField(
+                        enabled: true,
+                        controller: cEmail,
+                        maxLines: 2,
+                        decoration: const InputDecoration(
+                        enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.blue)
+                          ),
+                          label: Text("Email",style: TextStyle(fontSize: 10,color: Colors.blue),),
+                        ), 
+                      ),
+                    ),
+                  ), 
+                  Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(2.0),
+                      child: TextField(
+                        keyboardType: TextInputType.number,                      
+                        enabled: true,
+                        controller: cNoTelp,
+                        maxLines: 2,
+                        decoration: const InputDecoration(
+                        enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.blue)
+                          ),
+                          label: Text("Nomor Telepon",style: TextStyle(fontSize: 10,color: Colors.blue),),
+                        ), 
+                      ),
+                    ),
+                  ),
+                  level == "admin"        
+                  ? TextButton.icon(onPressed: (){
+                    radioButtons("admin");
+                  }, icon: Icon(cLevel.text =="admin"?Icons.radio_button_on:Icons.radio_button_off), label: const Text("Admin"))
+                  :Container(), 
+                  level == "admin"  
+                  ? TextButton.icon(onPressed: (){
+                    radioButtons("user");
+                  }, icon: Icon(cLevel.text =="user" || cLevel.text ==""?Icons.radio_button_on:Icons.radio_button_off), label: const Text("User"))
+                  :Container(),                                                                         
+                  Center(
+                    child: Padding(
+                      padding: const EdgeInsets.only(top:8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Card(
+                            color: Colors.green,
+                            child: TextButton(
+                              style: TextButton.styleFrom(
+                              backgroundColor: Colors.transparent,
+                              shadowColor: Colors.transparent,
+                              surfaceTintColor: Colors.blue,
+                              padding: const EdgeInsets.all(10.0),
+                              textStyle: const TextStyle(fontSize: 12),
+                              ), child: const Text('Simpan Data',style: TextStyle(color: Colors.white),),
+                              onPressed: (){
+                                textFormUpdateAdd == ApiUrl.tambahUserText
+                                ?_commandAlertMessage(ApiUrl.tambahUserText,"Pastikan Data Benar",true)
+                                :textFormUpdateAdd == ApiUrl.editUserText
+                                ?_commandAlertMessage(ApiUrl.editUserText,"Apakah Data User Akan Diubah ?",true)
+                                :textFormUpdateAdd == ApiUrl.deleteUserText
+                                ?_commandAlertMessage(ApiUrl.deleteUserText,"Apakah Data User Akan Dihapus ?",true)
+                                : level == ""
+                                ? _commandAlertMessage(ApiUrl.tambahUserText,"Pastikan Data Benar",true)
+                                :_commandFormUpdateAdd("", false);
+                              },
+                            ),
+                          ),                     
+                        ],
+                      ),
+                    ),
+                  ),                                                                          
+                ],
+              ),
             ),
           ),
         ),
@@ -489,12 +498,14 @@ bool appBarf = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const Drawers(),
-            appBar: AppBar(
-              backgroundColor: Colors.green,
-              foregroundColor: Colors.white,
-              shadowColor: Colors.blue,
-        title: Padding(
+      drawer: level != "" ? const Drawers() : Container(),
+        appBar: AppBar(
+          backgroundColor: Colors.green,
+          foregroundColor: Colors.white,
+          shadowColor: Colors.blue,
+        title: 
+        level != "" 
+        ? Padding(
           padding: const EdgeInsets.all(8.0),
           child: Row(
             children: [
@@ -523,13 +534,18 @@ bool appBarf = false;
               }, icon: const Icon(Icons.close,size: 20.0))
             ],
           ),
+        )
+        :Container(
+          color: Colors.transparent,
+          child: const Text("Daftar Akun"),
         ),
       ),
       body: RefreshIndicator(
         onRefresh: () =>_getDataUser("","","","","",""),
         child: Stack(
           children: [
-            ListView.builder(
+            level == "admin"
+            ? ListView.builder(
               itemCount: _listUser.length,
               itemBuilder: (context,index){
                 final listDataUser = _listUser[index]; 
@@ -561,8 +577,8 @@ bool appBarf = false;
                   ),
                 );
               }
-            ),
-              tampilFormUpdateAdd == true
+            ):Container(),
+              tampilFormUpdateAdd == true || level == ""
               ? _formUpdateAdd()
               : Container(),
               tampilAlertMessage == true
@@ -574,14 +590,17 @@ bool appBarf = false;
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: 
+      level != ""
+      ? FloatingActionButton(
         onPressed: (){
           _clearCtext();
           _commandFormUpdateAdd(ApiUrl.tambahUserText, true);
         },
         backgroundColor: Colors.green,
         child: const Icon(Icons.add),
-      ),      
+      )
+      :Container(),      
     );
   }
 }

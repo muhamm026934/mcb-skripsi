@@ -558,17 +558,21 @@ class _KanjianState extends State<Kanjian> {
           child: Column(
             children: [
               ListTile(
-                title: Text("Kajian ",style: _customFont()),
-                subtitle: Column(
-                  children: [
-                    Text(listDataKajian!.nmKajian,style: _customFont()),
-                    Padding(
-                      padding: const EdgeInsets.only(top:10.0),
-                      child: Text("Pada Tanggal ${listDataKajian.tglKajian}",style: _customFont()),
+                title: Text(listDataKajian!.nmKajian,style: _customFont()),
+                subtitle: Card(
+                  child: Card(
+                    color: Colors.blue,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        children: [
+                          Text("Pada Tanggal ${listDataKajian.tglKajianHelp}",style: const TextStyle(color: Colors.white,fontSize: 11)),
+                          Text("Dimulai Jam ${listDataKajian.jamStartKajian.substring(0,5)}",style: const TextStyle(color: Colors.white,fontSize: 11)),
+                          Text("Selesai Jam ${listDataKajian.jamEndKajian.substring(0,5)}",style: const TextStyle(color: Colors.white,fontSize: 11)),
+                        ],
+                      ),
                     ),
-                    Text("Dimulai Jam ${listDataKajian.jamStartKajian.substring(0,5)}",style: _customFont()),
-                    Text("Selesai Jam ${listDataKajian.jamEndKajian.substring(0,5)}",style: _customFont()),
-                  ],
+                  ),
                 ),
                 leading: 
                 listDataKajian.fotoKajian != ""

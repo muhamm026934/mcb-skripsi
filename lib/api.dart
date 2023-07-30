@@ -11,6 +11,8 @@ class ApiUrl {
   static String addDataUser = "$server/$user/add_user.php";
   static String editDataUser = "$server/$user/edit_user.php";
   static String deleteDataUser = "$server/$user/delete_user.php";
+  static String logins = "logins";
+  static String login = "$server/$logins/login.php";
 
   static String kajian = "kajian";
   static String fotoKajian = "foto_kajian";
@@ -23,8 +25,8 @@ class ApiUrl {
   static String viewDataKajian = "$server/$kajian/data_kajian.php";
   static String editDataKajian = "$server/$kajian/edit_kajian.php";
   static String deleteDataKajian = "$server/$kajian/delete_kajian.php";
-  static String logins = "logins";
-  static String login = "$server/$logins/login.php";
+
+
   static String stockBook = "stock_book";
   static String tambahStockBukuText = "Tambah Stock Buku";
   static String editStockBukuText = "Edit Stock Buku";

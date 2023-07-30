@@ -35,6 +35,7 @@ class Service {
     final response = await dio.post(ApiUrl.login, data: map);
 
     final listUser  = jsonDecode(response.data);
+    print(listUser);
     return listUser;
   } 
 

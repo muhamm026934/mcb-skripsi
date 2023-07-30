@@ -68,6 +68,87 @@ class _HomeState extends State<Home> {
     });
   }
 
+  TextStyle _customFont() {
+  return const TextStyle(color: Colors.white);
+  }
+
+  String headerText = "";
+  String titleText = "";
+  bool tampilAlertMessage = false;
+  _commandAlertMessage(headers, titles, tampilAlertMessages){
+    setState(() {
+      headerText = headers;
+      titleText = titles;
+      tampilAlertMessage = tampilAlertMessages;
+    });
+  } 
+
+  _alertMessage(){
+    return Container(
+      color: Colors.black45,
+      child: Center(
+        child: SizedBox(
+          width: MediaQuery.of(context).size.width* 0.8,
+          height: MediaQuery.of(context).size.height* 0.3,        
+          child: Card(
+            color:Colors.green,
+            child: ListView(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 18.0,left: 8.0,right: 8.0),
+                  child: Center(child: Text(headerText, style:_customFont(),textAlign: TextAlign.center,)),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(18.0),
+                  child: Center(child: Text(titleText, style:_customFont())),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top :18.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Card(
+                        color: Colors.blue,
+                        child: TextButton(
+                          style: TextButton.styleFrom(
+                          backgroundColor: Colors.transparent,
+                          shadowColor: Colors.transparent,
+                          surfaceTintColor: Colors.blue,
+                          padding: const EdgeInsets.all(10.0),
+                          textStyle: const TextStyle(fontSize: 12),
+                          ), child: const Text('Iya',style: TextStyle(color: Colors.white),),
+                          onPressed: (){
+    
+                          },
+                        ),
+                      ),   
+                      Card(
+                        color: Colors.orangeAccent,
+                        child: TextButton(
+                          style: TextButton.styleFrom(
+                          backgroundColor: Colors.transparent,
+                          shadowColor: Colors.transparent,
+                          surfaceTintColor: Colors.blue,
+                          padding: const EdgeInsets.all(10.0),
+                          textStyle: const TextStyle(fontSize: 12),
+                          ), child: const Text('Keluar',style: TextStyle(color: Colors.white),),
+                          onPressed: (){
+                            _commandAlertMessage(headerText, "", false);
+                          },
+                        ),
+                      ),                              
+                    ],
+                  ),
+                )
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -203,14 +284,16 @@ class _HomeState extends State<Home> {
                         child: Column(
                           children: [
                             ListTile(
-                              leading: IconButton(onPressed: (){}, icon: const Icon(Icons.delete_forever_rounded,color: Colors.black,)),
+                              leading: IconButton(onPressed: (){}, icon: const Icon(Icons.download,color: Colors.black,)),
                               title: Text(_listKajian[index]!.nmKajian.toString(),textAlign: TextAlign.center,style:const TextStyle(color: Colors.black,fontSize: 12.0)),
-                              trailing: IconButton(onPressed: (){}, icon: const Icon(Icons.edit_square,color: Colors.black,)),
+                              trailing: IconButton(onPressed: (){}, icon: const Icon(Icons.list,color: Colors.black,)),
                             ),
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: ElevatedButton(
-                                onPressed: (){},
+                                onPressed: (){
+                                  _commandAlertMessage(_listKajian[index]!.nmKajian.toString(), "Apakah Anda Hadir ?", true);
+                                },
                                 style: ElevatedButton.styleFrom(
                                   backgroundColor: Colors.orange,
                                   shape: RoundedRectangleBorder(
@@ -229,14 +312,17 @@ class _HomeState extends State<Home> {
               ],
             ),
           ),
+          tampilAlertMessage == true
+          ? _alertMessage()
+          : Container(),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: (){
-        },
-        backgroundColor: Colors.green,
-        child: const Icon(Icons.add),
-      ),      
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: (){
+      //   },
+      //   backgroundColor: Colors.green,
+      //   child: const Icon(Icons.menu),
+      // ),      
     );
   }
 }

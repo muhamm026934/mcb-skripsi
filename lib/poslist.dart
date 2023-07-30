@@ -17,6 +17,7 @@ class PostList {
   late String jamStartKajian;
   late String jamEndKajian;
   late String tglKajian;
+  late String tglKajianHelp;
 
   late String message;
   late String value;  
@@ -38,6 +39,7 @@ class PostList {
     required this.jamStartKajian,
     required this.jamEndKajian,
     required this.tglKajian,
+    required this.tglKajianHelp,
 
     required this.message,
     required this.value,    
@@ -61,6 +63,7 @@ class PostList {
       jamStartKajian:json['jam_start_kajian'] ?? "", 
       jamEndKajian:json['jam_end_kajian'] ?? "", 
       tglKajian:json['tgl_kajian'] ?? "", 
+      tglKajianHelp:json['tgl_kajian_help'] ?? "", 
 
       message: json['message'] ?? "", 
       value: json['value'] ?? "",   

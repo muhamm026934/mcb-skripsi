@@ -135,7 +135,7 @@ class _DrawersState extends State<Drawers> {
                   child: Image.asset("assets/images/mcb.png")),
                 Center(
                   child: Padding(
-                    padding: const EdgeInsets.all(1.0),
+                    padding: const EdgeInsets.all(8.0),
                     child: Text(name,style: const TextStyle(color: Colors.white,fontWeight: FontWeight.bold),)
                   ),
                 ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mcb/custom_alert_dialog.dart';
+import 'package:mcb/page_routes.dart';
 import 'package:mcb/service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -43,7 +44,7 @@ class _LoginState extends State<Login> {
   }
 
   _pageRoutesAfterLogin(){
-    
+    PageRoutes.routeToHome(context);
   }
 
   _logins() async{
@@ -55,7 +56,7 @@ class _LoginState extends State<Login> {
         message = valueUser['message'];
         values = valueUser['value'];
               
-        print(message);                     
+        print(message.toString());                     
       });
       switch (values) {
         case "1":
@@ -243,6 +244,7 @@ class _LoginState extends State<Login> {
                               textStyle: const TextStyle(fontSize: 15),
                               ), child: const Text('Masuk',style: TextStyle(color: Colors.white),),
                               onPressed: (){
+                                _logins();
                               },
                             ),
                           ),
