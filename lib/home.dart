@@ -240,6 +240,10 @@ class _HomeState extends State<Home> {
                                   Align(
                                     child: Text(index.nmKajian.toString(),textAlign: TextAlign.center, style:  const TextStyle(fontSize: 13.0,color: Colors.white),),
                                   ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text("Pada ${index.tglKajianHelp} Pukul ${index.jamStartKajian.substring(0,5)} s/d ${index.jamEndKajian.substring(0,5)}", style:  const TextStyle(fontSize: 13.0,color: Colors.white)),
+                                  ),
                                 ],
                               )
                             ),
@@ -287,6 +291,12 @@ class _HomeState extends State<Home> {
                               leading: IconButton(onPressed: (){}, icon: const Icon(Icons.download,color: Colors.black,)),
                               title: Text(_listKajian[index]!.nmKajian.toString(),textAlign: TextAlign.center,style:const TextStyle(color: Colors.black,fontSize: 12.0)),
                               trailing: IconButton(onPressed: (){}, icon: const Icon(Icons.list,color: Colors.black,)),
+                              subtitle: Card(
+                                color: Colors.blue,
+                                child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text("Pada ${_listKajian[index]!.tglKajianHelp} Pukul ${_listKajian[index]!.jamStartKajian.substring(0,5)} s/d ${_listKajian[index]!.jamEndKajian.substring(0,5)}"),
+                              )),
                             ),
                             Padding(
                               padding: const EdgeInsets.all(8.0),

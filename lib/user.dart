@@ -327,7 +327,9 @@ class _UserState extends State<User> {
                         IconButton(
                           color: Colors.red,
                           onPressed: (){
-                            _commandFormUpdateAdd("", false);
+                            level == "admin"
+                            ? _commandFormUpdateAdd("", false)
+                            :PageRoutes.routeToLogin(context);
                           }, icon: const Icon(Icons.close,size: 20.0,)),
                       ],
                     ),

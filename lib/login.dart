@@ -269,6 +269,7 @@ class _LoginState extends State<Login> {
                       textStyle: const TextStyle(fontSize: 15),
                       ), child: const Text('Daftar',style: TextStyle(color: Colors.white),),
                       onPressed: (){
+                        PageRoutes.routeToUser(context);
                       },
                     ),
                   ),                               
