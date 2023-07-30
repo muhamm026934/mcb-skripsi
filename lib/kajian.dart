@@ -91,6 +91,9 @@ class _KanjianState extends State<Kanjian> {
     TextEditingController cKajianId = TextEditingController();
     TextEditingController cKajianNm = TextEditingController();
     TextEditingController cKajianFoto = TextEditingController();
+    TextEditingController cKajianJamStart = TextEditingController();
+    TextEditingController cKajianJamEnd = TextEditingController();
+    TextEditingController cKajianTgl = TextEditingController();
 
   List<PostList?> _listKajian = [];
 
@@ -98,7 +101,7 @@ class _KanjianState extends State<Kanjian> {
     setState(() {
       _loading = true;
     });
-    Service.getDataKajian(action,cKajianId.text,cKajianNm.text,cKajianFoto.text).then((value) async {
+    Service.getDataKajian(action,cKajianId.text,cKajianNm.text,cKajianFoto.text,cKajianJamStart.text,cKajianJamEnd.text,cKajianTgl.text).then((value) async {
       setState(() {
         _listKajian = value;
         _loading = false;
@@ -114,7 +117,7 @@ class _KanjianState extends State<Kanjian> {
   });
   
   Service.functionUploadDataKajian(
-    headerText, cKajianId.text ,cKajianNm.text, filePickerVal, txtFilePicker, idUsersApp).then((value) async {
+    headerText, cKajianId.text ,cKajianNm.text, filePickerVal, txtFilePicker, idUsersApp,cKajianJamStart.text,cKajianJamEnd.text,cKajianTgl.text).then((value) async {
     setState(() {
       _messageUpload = value;
       _loading = false;
@@ -148,6 +151,9 @@ class _KanjianState extends State<Kanjian> {
     cKajianId.text = "";
     cKajianNm.text = "";
     cKajianFoto.text = "";
+    cKajianJamStart.text = "";
+    cKajianJamEnd.text = "";
+    cKajianTgl.text = "";
   });
  }
   _alertMessage(){
@@ -295,14 +301,21 @@ class _KanjianState extends State<Kanjian> {
     });
   }  
 
-  _editDataBuku(cIdKajians,cNmKajians,cFotoKajians,headers){
+  _editDataKajian(cIdKajians,cNmKajians,cFotoKajians,cJamStartKajian, cJamEndKajian, cTglKajian, headers){
     setState(() {
         cKajianId.text = cIdKajians;
         cKajianNm.text = cNmKajians;
         cKajianFoto.text = cFotoKajians;
+        cKajianJamStart.text = cJamStartKajian;
+        cKajianJamEnd.text = cJamEndKajian;
+        cKajianTgl.text = cTglKajian;        
         _commandFormUpdateAdd(headers, true);
     });
   }
+
+  DateTime selectedDate = DateTime.now();
+  TimeOfDay selectedStartTime = TimeOfDay.now();
+  TimeOfDay selectedEndTime = TimeOfDay.now();
 
   _formUpdateAdd(){
     return Center(
@@ -331,9 +344,103 @@ class _KanjianState extends State<Kanjian> {
                 Card(
                   child: Padding(
                     padding: const EdgeInsets.all(2.0),
+                    child: Row(
+                      children: [
+                        IconButton(onPressed: () async{
+                          final date = await pickDate();
+                          setState(() {
+                            if (date == null) {
+                              cKajianTgl.text = "";
+                            }else{
+                              cKajianTgl.text = date.toString().substring(0,10);
+                            }                            
+                          });
+                        }, icon: const Icon(Icons.calendar_today,color: Colors.blue,)),
+                        Expanded(
+                          child: TextField(
+                            enabled: headerText == ApiUrl.detailKajianText ?false : true,
+                            controller: cKajianTgl,
+                            decoration: const InputDecoration(
+                            enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.blue)
+                              ),
+                              label: Text("Tanggal Kajian",style: TextStyle(fontSize: 10,color: Colors.blue),),
+                            ), 
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),  
+                Card(
+                  child: Padding(
+                    padding: const EdgeInsets.all(2.0),
+                    child: Row(
+                      children: [
+                        IconButton(onPressed: ()async{
+                          final timeStart = await selectedTimeStart();
+                          setState(() {
+                            if (timeStart == null) {
+                              cKajianJamStart.text = "";
+                            }else{
+                              cKajianJamStart.text = timeStart.toString().substring(10,15);
+                            }                            
+                          });                          
+                        }, icon: const Icon(Icons.timer,color: Colors.blue,)),
+                        Expanded(
+                          child: TextField(
+                            enabled: headerText == ApiUrl.detailKajianText ?false : true,
+                            controller: cKajianJamStart,
+                            decoration: const InputDecoration(
+                            enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.blue)
+                              ),
+                              label: Text("Jam Mulai Kajian",style: TextStyle(fontSize: 10,color: Colors.blue),),
+                            ), 
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),   
+                Card(
+                  child: Padding(
+                    padding: const EdgeInsets.all(2.0),
+                    child: Row(
+                      children: [
+                        IconButton(onPressed: ()async{
+                          final timeEnd = await selectedTimeEnd();
+                          setState(() {
+                            if (timeEnd == null) {
+                              cKajianJamEnd.text = "";
+                            }else{
+                              cKajianJamEnd.text = timeEnd.toString().substring(10,15);
+                            }                            
+                          });                             
+                        }, icon: const Icon(Icons.timer,color: Colors.blue,)),
+                        Expanded(
+                          child: TextField(
+                            enabled: headerText == ApiUrl.detailKajianText ?false : true,
+                            controller: cKajianJamEnd,
+                            decoration: const InputDecoration(
+                            enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.blue)
+                              ),
+                              label: Text("Jam Selesai Kajian",style: TextStyle(fontSize: 10,color: Colors.blue),),
+                            ), 
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),                                
+                Card(
+                  child: Padding(
+                    padding: const EdgeInsets.all(2.0),
                     child: TextField(
                       enabled: headerText == ApiUrl.detailKajianText ?false : true,
                       controller: cKajianNm,
+                      maxLines: 5,
                       decoration: const InputDecoration(
                       enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.blue)
@@ -342,7 +449,7 @@ class _KanjianState extends State<Kanjian> {
                       ), 
                     ),
                   ),
-                ),                      
+                ),                                     
                 headerText == ApiUrl.detailKajianText 
                 ? Container()            
                 : Center(
@@ -452,16 +559,29 @@ class _KanjianState extends State<Kanjian> {
             children: [
               ListTile(
                 title: Text("Kajian ",style: _customFont()),
-                subtitle: Text(listDataKajian!.nmKajian,style: _customFont()),
+                subtitle: Column(
+                  children: [
+                    Text(listDataKajian!.nmKajian,style: _customFont()),
+                    Padding(
+                      padding: const EdgeInsets.only(top:10.0),
+                      child: Text("Pada Tanggal ${listDataKajian.tglKajian}",style: _customFont()),
+                    ),
+                    Text("Dimulai Jam ${listDataKajian.jamStartKajian.substring(0,5)}",style: _customFont()),
+                    Text("Selesai Jam ${listDataKajian.jamEndKajian.substring(0,5)}",style: _customFont()),
+                  ],
+                ),
                 leading: 
                 listDataKajian.fotoKajian != ""
                 ? Image.network(ApiUrl.viewImageBuku+listDataKajian.fotoKajian)
                 : Image.asset("assets/images/mcb.png"),
                 trailing: IconButton(onPressed: (){
-                        _editDataBuku(
+                        _editDataKajian(
                         listDataKajian.idKajian, 
                         listDataKajian.nmKajian,
                         listDataKajian.fotoKajian,
+                        listDataKajian.jamStartKajian,
+                        listDataKajian.jamEndKajian,
+                        listDataKajian.tglKajian,
                         ApiUrl.detailKajianText
                         );                                    
                 }, icon: Icon(Icons.remove_red_eye,color: _colorIcon())),
@@ -480,10 +600,13 @@ class _KanjianState extends State<Kanjian> {
                     }, icon: const Icon(Icons.delete_forever,color: Colors.red))),
                     Card(
                       child: IconButton(onPressed: (){
-                      _editDataBuku(
+                      _editDataKajian(
                         listDataKajian.idKajian,
                         listDataKajian.nmKajian,
                         listDataKajian.fotoKajian,
+                        listDataKajian.jamStartKajian,
+                        listDataKajian.jamEndKajian,
+                        listDataKajian.tglKajian,                        
                         ApiUrl.editKajianText
                         );                                  
                       }, icon: const Icon(Icons.edit,color: Colors.orange)),
@@ -568,4 +691,21 @@ class _KanjianState extends State<Kanjian> {
       ),
     );
   }
+
+  Future<DateTime?> pickDate() => showDatePicker(
+    context: context, 
+    initialDate: selectedDate, 
+    firstDate: DateTime(1900), 
+    lastDate: DateTime(2100));  
+
+  Future<TimeOfDay?> selectedTimeStart() => showTimePicker(
+    context: context,
+    initialTime: TimeOfDay.now(), 
+  );
+  Future<TimeOfDay?> selectedTimeEnd() => showTimePicker(
+    context: context,
+    initialTime: TimeOfDay.now(), 
+  );
+
 }
+

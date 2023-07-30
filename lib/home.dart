@@ -19,7 +19,7 @@ class _HomeState extends State<Home> {
   void initState() {
     super.initState();
     _getPref();
-    _getDataKajian("","","","","");
+    _getDataKajian("","","","","","","");
   }
 
   late String value = "";
@@ -56,11 +56,11 @@ class _HomeState extends State<Home> {
   final CarouselController _controller = CarouselController();
   List<PostList?> _listKajian = [];
   bool _loading = false;
-  _getDataKajian(action,idBuku,judulBuku,penerbit,tahun) async{
+  _getDataKajian(action,idKajian,nmKajian,fotoKajian,jamStartKajian,jamEndKajian,tglKajian) async{
     setState(() {
       _loading = true;
     });
-    Service.getDataKajian(action,idBuku,judulBuku,penerbit).then((value) async {
+    Service.getDataKajian(action,idKajian,nmKajian,fotoKajian,jamStartKajian,jamEndKajian,tglKajian).then((value) async {
       setState(() {
         _listKajian = value;
         _loading = false;
@@ -115,8 +115,8 @@ class _HomeState extends State<Home> {
                       viewportFraction: 0.8,
                       initialPage: 0,
                       enableInfiniteScroll: true,
-                      reverse: true,
-                      autoPlay: false,
+                      reverse: false,
+                      autoPlay: true,
                       autoPlayInterval: const Duration(seconds: 5),
                       autoPlayAnimationDuration: const Duration(milliseconds: 800),
                       autoPlayCurve: Curves.fastOutSlowIn,
@@ -231,6 +231,12 @@ class _HomeState extends State<Home> {
           ),
         ],
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: (){
+        },
+        backgroundColor: Colors.green,
+        child: const Icon(Icons.add),
+      ),      
     );
   }
 }

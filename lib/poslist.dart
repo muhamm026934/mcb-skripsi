@@ -14,6 +14,9 @@ class PostList {
   late String idKajian ;
   late String nmKajian;
   late String fotoKajian;
+  late String jamStartKajian;
+  late String jamEndKajian;
+  late String tglKajian;
 
   late String message;
   late String value;  
@@ -32,6 +35,9 @@ class PostList {
     required this.idKajian,
     required this.nmKajian,
     required this.fotoKajian,
+    required this.jamStartKajian,
+    required this.jamEndKajian,
+    required this.tglKajian,
 
     required this.message,
     required this.value,    
@@ -52,6 +58,9 @@ class PostList {
       idKajian:json['id_kajian'] ?? "", 
       nmKajian:json['nm_kajian'] ?? "", 
       fotoKajian:json['foto_kajian'] ?? "", 
+      jamStartKajian:json['jam_start_kajian'] ?? "", 
+      jamEndKajian:json['jam_end_kajian'] ?? "", 
+      tglKajian:json['tgl_kajian'] ?? "", 
 
       message: json['message'] ?? "", 
       value: json['value'] ?? "",   

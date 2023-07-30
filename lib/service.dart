@@ -82,24 +82,26 @@ class Service {
     return list;
   }  
 
-  static Future <List<PostList>> functionUploadDataKajian(action , idKajian, nmKajian, filePaths, fileName, idUser) async{
+  static Future <List<PostList>> functionUploadDataKajian(action , idKajian, nmKajian, filePaths, fileName, idUser,jamStartKajian,jamEndKajian,tglKajian) async{
     String tglInput = DateTime.now().toString();
     var map = 
     fileName !=""
     ? FormData.fromMap({
         'ACTION': action,
         'id_kajian': idKajian.toString(),
-        'nm_kajian': nmKajian.toString(),
-        'id_user_input_buku': idUser.toString(),
-        'date_user_input_buku': tglInput,      
+        'nm_kajian': nmKajian.toString(),   
+        'jam_start_kajian': jamStartKajian,  
+        'jam_end_kajian': jamEndKajian,  
+        'tgl_kajian': tglKajian,                           
         'files': MultipartFile.fromFileSync(filePaths.path, filename: fileName),
       })
       :FormData.fromMap({
         'ACTION': action,
         'id_kajian': idKajian.toString(),
-        'nm_kajian': nmKajian.toString(),
-        'id_user_input_buku': idUser.toString(),
-        'date_user_input_buku': tglInput,        
+        'nm_kajian': nmKajian.toString(), 
+        'jam_start_kajian': jamStartKajian,  
+        'jam_end_kajian': jamEndKajian,  
+        'tgl_kajian': tglKajian,                 
       });
     var dio = Dio();
     final response = 
@@ -115,12 +117,15 @@ class Service {
     return list;
   }   
   
-  static Future<List<PostList>> getDataKajian(action,idKajian,nmKajian,fotoKajian) async{
+  static Future<List<PostList>> getDataKajian(action,idKajian,nmKajian,fotoKajian,jamStartKajian,jamEndKajian,tglKajian) async{
     var map = FormData.fromMap({
         'ACTION': action,
         'id_kajian': idKajian,
         'nm_kajian': nmKajian,
         'foto_kajian': fotoKajian,
+        'jam_start_kajian': jamStartKajian,
+        'jam_end_kajian': jamEndKajian,
+        'tgl_kajian': tglKajian,
       });  
     var dio = Dio();
     final response = await dio.post(ApiUrl.viewDataKajian, data: map);
