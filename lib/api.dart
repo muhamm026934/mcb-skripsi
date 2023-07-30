@@ -1,5 +1,5 @@
 class ApiUrl {
-  static String server = "http://192.168.1.5:8080/mcb";
+  static String server = "http://192.168.1.5:8080/mcb-api";
 
   static String tambahUserText = "Tambah User";
   static String editUserText = "Edit User";
