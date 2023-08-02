@@ -165,7 +165,7 @@ class _HomeState extends State<Home> {
     _loading = true;
   });
   
-  Service.functionUploadDataAbsensi(action , cIdAbsensi ,cIdKajian, idUsersApp).then((value) async {
+  Service.functionUploadDataAbsensi(action , cIdAbsensi ,cIdKajian, idUsersApp.toString()).then((value) async {
     setState(() {
       _messageUpload = value;
       _loading = false;
