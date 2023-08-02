@@ -101,7 +101,7 @@ class _KanjianState extends State<Kanjian> {
     setState(() {
       _loading = true;
     });
-    Service.getDataKajian(action,cKajianId.text,cKajianNm.text,cKajianFoto.text,cKajianJamStart.text,cKajianJamEnd.text,cKajianTgl.text).then((value) async {
+    Service.getDataKajian(action,cKajianId.text,cKajianNm.text,cKajianFoto.text,cKajianJamStart.text,cKajianJamEnd.text,cKajianTgl.text,"").then((value) async {
       setState(() {
         _listKajian = value;
         _loading = false;

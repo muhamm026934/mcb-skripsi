@@ -118,7 +118,7 @@ class Service {
     return list;
   }   
   
-  static Future<List<PostList>> getDataKajian(action,idKajian,nmKajian,fotoKajian,jamStartKajian,jamEndKajian,tglKajian) async{
+  static Future<List<PostList>> getDataKajian(action,idKajian,nmKajian,fotoKajian,jamStartKajian,jamEndKajian,tglKajian,idUsersApp) async{
     var map = FormData.fromMap({
         'ACTION': action,
         'id_kajian': idKajian,
@@ -127,6 +127,7 @@ class Service {
         'jam_start_kajian': jamStartKajian,
         'jam_end_kajian': jamEndKajian,
         'tgl_kajian': tglKajian,
+        'id_user': idUsersApp,
       });  
     var dio = Dio();
     final response = await dio.post(ApiUrl.viewDataKajian, data: map);
@@ -134,6 +135,27 @@ class Service {
     List<PostList> listTeam  = parseResponse(response.data);
     return listTeam;
   }
+
+  static Future <List<PostList>> functionUploadDataAbsensi(action , cIdAbsensi ,cIdKajian, idUsersApp) async{
+    String tglInput = DateTime.now().toString();
+    var map = FormData.fromMap({
+        'ACTION': action,
+        'id_absensi': cIdAbsensi.toString(),
+        'id_kajian': cIdKajian.toString(),
+        'id_user': idUsersApp.toString(),
+        'datetime_absen': tglInput.toString(),       
+      });
+    var dio = Dio();
+    final response = 
+    action == ApiUrl.tambahAbsenText
+    ? await dio.post(ApiUrl.addADatabsensi, data: map)
+    : action == ApiUrl.deleteAbsenText
+    ? await dio.post(ApiUrl.deleteDataAbsen, data: map)
+    : await dio.post(ApiUrl.absensi, data: map);
+
+    List<PostList> list  = parseResponse(response.data);
+    return list;
+  }  
 
 
   static List<PostList> parseResponse(String responseBody) {

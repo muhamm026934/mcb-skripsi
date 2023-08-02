@@ -22,6 +22,9 @@ class PostList {
   late String message;
   late String value;  
 
+  late String idAbsensi;
+  late String datetimeAbsen;
+
   PostList({
     required this.idUser,
     required this.name,
@@ -43,6 +46,9 @@ class PostList {
 
     required this.message,
     required this.value,    
+
+    required this.idAbsensi,
+    required this.datetimeAbsen,
   });
 
   factory PostList.fromJsons(Map<String,dynamic> json){
@@ -67,6 +73,10 @@ class PostList {
 
       message: json['message'] ?? "", 
       value: json['value'] ?? "",   
+
+      idAbsensi: json['id_absensi'] ?? "",   
+      datetimeAbsen: json['datetime_absen'] ?? "",   
+
 
       );
   }
