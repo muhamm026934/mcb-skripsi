@@ -246,6 +246,102 @@ class _HomeState extends State<Home> {
 
   String idKajians = "";
 
+  bool absensiForm = false ;
+  String headerForm = "";
+  String gIdAbsensi = "";
+  String gIdKajian = "";
+  String datetimeAbsen = "";
+  String gNmKajian = "";
+
+ _openDataAbsensiAnggota(headerForms, absensiForms,gIdAbsensis,gIdKajians,idUsersApps,gNmKajians){
+    setState(() {
+      absensiForm = absensiForms;
+      headerForm = headerForms;
+      gIdAbsensi = gIdAbsensis;
+      gIdKajian = gIdKajians; 
+      gNmKajian = gNmKajians;
+      _getDataAbsensi("",idUsersApps);
+      print(idUsersApps);
+      print(gIdAbsensis);
+      print(gIdKajians);
+    });
+ }
+
+  List<PostList?> _listAbsenKajian = [];
+  _getDataAbsensi(action, idUsersApps) async{
+    setState(() {
+      _loading = true;
+      _listAbsenKajian.clear();
+    });
+    Service.getDataAbsensi(action,gIdAbsensi ,gIdKajian,idUsersApps,datetimeAbsen,level).then((value) async {
+      setState(() {
+        _listAbsenKajian = value;
+        _loading = false;
+      });
+    });
+  }
+
+ _dataAbsensiAnggota(){
+    return Container(
+      color: Colors.black54,
+      child: Center(
+        child: Container(
+          color: Colors.white,
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width* 0.99,
+            height: MediaQuery.of(context).size.height* 0.9,   
+            child: Column(
+              children: [
+                Card(
+                  color:  Colors.blue,
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 8.0,left: 8.0),
+                    child: ListTile(
+                      leading: IconButton(onPressed: (){}, icon: const Icon(Icons.download,color: Colors.white)),
+                      title: Text(
+                       headerForm == ApiUrl.detailAllUserAbsenDiKajian
+                        ?"Kajian yang dihadiri $name ada ${_listAbsenKajian.length}"
+                        :" ${_listAbsenKajian.length} Peserta yang hadir di kajian $gNmKajian",
+                        textAlign: TextAlign.center,style:TextStyle(color: Colors.black,fontSize: 10.0)),
+                      trailing: IconButton(onPressed: (){
+                        _openDataAbsensiAnggota("", false,"","",idUsersApp,"");
+                      }, icon: const Icon(Icons.close,color: Colors.white,)),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Card(
+                    color:  Colors.blue,
+                    child: ListView.builder(
+                    itemCount: _listAbsenKajian.length,
+                    itemBuilder: (context,index)=> 
+                    Card(
+                      color: Colors.white,
+                      child: Card(
+                        color: _listAbsenKajian[index]!.idAbsensi.toString() == "" ? Colors.blue : Colors.green,
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: 8.0,left: 8.0),
+                          child: ListTile(
+                            leading: Text("${index+1}."),
+                            title: 
+                            headerForm == ApiUrl.detailAllUserAbsenDiKajian
+                            ? Text(_listAbsenKajian[index]!.nmKajian,textAlign: TextAlign.left,style:TextStyle(color: Colors.black,fontSize: 12.0))
+                            : Text(_listAbsenKajian[index]!.name,textAlign: TextAlign.left,style:TextStyle(color: Colors.black,fontSize: 12.0)),
+                          ),
+                        ),
+                      ),
+                    ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+ }
+ 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -273,7 +369,7 @@ class _HomeState extends State<Home> {
                 ),
               ),
               IconButton(onPressed: (){
-                
+                _getDataKajian("","",cSearch.text,"","","","");
               }, icon: const Icon(Icons.search))
             ],
           ),
@@ -389,14 +485,19 @@ class _HomeState extends State<Home> {
                             child: Column(
                               children: [
                                 ListTile(
-                                  leading: IconButton(onPressed: (){}, icon: const Icon(Icons.download,color: Colors.black,)),
+                                  leading: SizedBox(
+                                    width: 50,
+                                    height: 50,
+                                    child: Image.network(ApiUrl.viewImageBuku+_listKajian[index]!.fotoKajian)),
                                   title: Text(_listKajian[index]!.nmKajian.toString(),textAlign: TextAlign.center,style:const TextStyle(color: Colors.black,fontSize: 12.0)),
-                                  trailing: IconButton(onPressed: (){}, icon: const Icon(Icons.list,color: Colors.black,)),
+                                  trailing: IconButton(onPressed: (){      
+                                    _openDataAbsensiAnggota("Data Absensi $name", true, "", _listKajian[index]!.idKajian,"",_listKajian[index]!.nmKajian);
+                                  }, icon: const Icon(Icons.list,color: Colors.black,)),
                                   subtitle: Card(
                                     color: _listKajian[index]!.idAbsensi.toString() == "" ? Colors.blue : Colors.green,
                                     child: Padding(
                                     padding: const EdgeInsets.all(8.0),
-                                    child: Text("Pada ${_listKajian[index]!.tglKajianHelp} Pukul ${_listKajian[index]!.jamStartKajian.substring(0,5)} s/d ${_listKajian[index]!.jamEndKajian.substring(0,5)}"),
+                                    child: Text("Pada ${_listKajian[index]!.tglKajianHelp} Pukul ${_listKajian[index]!.jamStartKajian.substring(0,5)} s/d ${_listKajian[index]!.jamEndKajian.substring(0,5)}",style:const TextStyle(color: Colors.black,fontSize: 12.0)),
                                   )),
                                 ),
                                 Padding(
@@ -438,16 +539,25 @@ class _HomeState extends State<Home> {
             : Container(),
             tampilAlertMessageResponse == true
             ? _alertMessageResponse()
-            : Container(),                
+            : Container(),
+            absensiForm == true
+            ? _dataAbsensiAnggota()
+            : Container(),
           ],
         ),
       ),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: (){
-      //   },
-      //   backgroundColor: Colors.green,
-      //   child: const Icon(Icons.menu),
-      // ),      
+      floatingActionButton: FloatingActionButton(
+        onPressed: 
+        absensiForm == false
+        ? (){
+          _openDataAbsensiAnggota(ApiUrl.detailAllUserAbsenDiKajian, true, "", "",idUsersApp,"");
+        }
+        :(){
+          _openDataAbsensiAnggota("", false, "", "",idUsersApp,"");
+        },
+        backgroundColor: Colors.green,
+        child: absensiForm == false ? const Icon(Icons.list_rounded):const Icon(Icons.close),
+      ),      
     );
   }
 }

@@ -157,6 +157,21 @@ class Service {
     return list;
   }  
 
+  static Future<List<PostList>> getDataAbsensi(action,gIdAbsensi ,gIdKajian,idUsersApp,datetimeAbsen,level) async{
+    var map = FormData.fromMap({
+        'ACTION': action,
+        'id_absensi': gIdAbsensi,
+        'id_kajian': gIdKajian,
+        'id_user': idUsersApp,
+        'datetime_absen': datetimeAbsen,
+        'level': level,
+      });  
+    var dio = Dio();
+    final response = await dio.post(ApiUrl.detailDataAbsen, data: map);
+
+    List<PostList> listTeam  = parseResponse(response.data);
+    return listTeam;
+  }
 
   static List<PostList> parseResponse(String responseBody) {
     final  parsed = jsonDecode(responseBody).cast<Map<String, dynamic>>();

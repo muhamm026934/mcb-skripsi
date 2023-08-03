@@ -105,6 +105,7 @@ class _KanjianState extends State<Kanjian> {
       setState(() {
         _listKajian = value;
         _loading = false;
+        _clearCtext();
       });
     });
   }
@@ -154,6 +155,7 @@ class _KanjianState extends State<Kanjian> {
     cKajianJamStart.text = "";
     cKajianJamEnd.text = "";
     cKajianTgl.text = "";
+    cSearch.text = "";
   });
  }
   _alertMessage(){
@@ -650,6 +652,9 @@ class _KanjianState extends State<Kanjian> {
                 ),
               ),
               IconButton(onPressed: (){
+                setState(() {
+                  cKajianNm.text = cSearch.text;
+                });
                 _getDataKajian("");
               }, icon: const Icon(Icons.search))
             ],

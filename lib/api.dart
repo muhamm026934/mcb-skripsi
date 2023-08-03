@@ -1,6 +1,6 @@
 class ApiUrl {
-  static String servers = "http://192.168.1.5:8080/mcb-api";
-  static String server = "http://star46.site/mcb-api";
+  static String server = "http://192.168.1.5:8080/mcb-api";
+  static String servers = "http://star46.site/mcb-api";
   static String tambahUserText = "Tambah User";
   static String editUserText = "Edit User";
   static String deleteUserText = "Hapus Data User";
@@ -29,8 +29,11 @@ class ApiUrl {
   static String absensi = "absensi";
   static String tambahAbsenText = "Tambah Absensi";
   static String deleteAbsenText = "Hapus Absensi";
+  static String detailUserAbsenDiKajian = "User Spesifik";
+  static String detailAllUserAbsenDiKajian = "User All";
   static String addADatabsensi = "$server/$absensi/add_absensi.php";
   static String deleteDataAbsen = "$server/$absensi/delete_absensi.php";
+  static String detailDataAbsen = "$server/$absensi/detail_data_absensi.php";
   static String  confimAbsen = "Apakah anda hadir ?";
   static String  cancelAbsen = "Apakah anda ingin menghapus absen ?";
 
