@@ -120,14 +120,14 @@ class Service {
   
   static Future<List<PostList>> getDataKajian(action,idKajian,nmKajian,fotoKajian,jamStartKajian,jamEndKajian,tglKajian,idUsersApp) async{
     var map = FormData.fromMap({
-        'ACTION': action,
-        'id_kajian': idKajian,
-        'nm_kajian': nmKajian,
-        'foto_kajian': fotoKajian,
-        'jam_start_kajian': jamStartKajian,
-        'jam_end_kajian': jamEndKajian,
-        'tgl_kajian': tglKajian,
-        'id_user': idUsersApp,
+        'ACTION': action.toString(),
+        'id_kajian': idKajian.toString(),
+        'nm_kajian': nmKajian.toString(),
+        'foto_kajian': fotoKajian.toString(),
+        'jam_start_kajian': jamStartKajian.toString(),
+        'jam_end_kajian': jamEndKajian.toString(),
+        'tgl_kajian': tglKajian.toString(),
+        'id_user': idUsersApp.toString(),
       });  
     var dio = Dio();
     final response = await dio.post(ApiUrl.viewDataKajian, data: map);

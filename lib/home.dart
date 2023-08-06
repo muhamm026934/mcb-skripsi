@@ -20,10 +20,8 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-    idUsersApp != ""
-    ?_getDataKajian("","","","","","","")
-    :_getPref();
-
+    _getPref();
+    print("idUsersApp"+idUsersApp);
   }
 
   late String value = "";
@@ -40,22 +38,20 @@ class _HomeState extends State<Home> {
   Future<void> _getPref() async {
     Service.getPref().then((preferences) {
       setState(() {
-        value = preferences.getString('value');
-        idUsersApp = preferences.getString('idUsersApp');
-        name = preferences.getString('name');
-        username = preferences.getString('username');
-        password = preferences.getString('password');
-        address = preferences.getString('address');
-        level = preferences.getString('level');
-        email = preferences.getString('email');
-        noTelp = preferences.getString('noTelp');
-        token = preferences.getString('token');
-
+        value = preferences.getString('value').toString();
+        idUsersApp = preferences.getString('idUsersApp').toString();
+        name = preferences.getString('name').toString();
+        username = preferences.getString('username').toString();
+        password = preferences.getString('password').toString();
+        address = preferences.getString('address').toString();
+        level = preferences.getString('level').toString();
+        email = preferences.getString('email').toString();
+        noTelp = preferences.getString('noTelp').toString();
+        token = preferences.getString('token').toString();
         _getDataKajian("","","","","","","");
       });
     });
   }
-
 
  String headerExport = "", titleExport = "";
  bool tampilAlertMessageExport = false;
