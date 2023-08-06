@@ -137,7 +137,10 @@ class _LoginState extends State<Login> {
                 SizedBox(
                   width: 200,
                   height: 200,
-                  child: Image.asset("assets/images/mcb.png")),   
+                  child: Padding(
+                    padding: const EdgeInsets.only(top :30.0),
+                    child: Image.asset("assets/images/mcb.jpeg"),
+                  )),   
                   const Padding(
                     padding: EdgeInsets.all(8.0),
                     child: Card(
