@@ -20,7 +20,9 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-    _getPref();
+    idUsersApp != ""
+    ?_getDataKajian("","","","","","","")
+    :_getPref();
 
   }
 
