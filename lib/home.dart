@@ -6,6 +6,7 @@ import 'package:mcb/drawer.dart';
 import 'package:mcb/page_routes.dart';
 import 'package:mcb/poslist.dart';
 import 'package:mcb/service.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -53,6 +54,80 @@ class _HomeState extends State<Home> {
     });
   }
 
+
+ String headerExport = "", titleExport = "";
+ bool tampilAlertMessageExport = false;
+  _commandAlertMessageExport(headerExports, titleExports, tampilAlertMessageExports){
+    setState(() {
+      headerExport = headerExports;
+      titleExport = titleExports;
+      tampilAlertMessageExport = tampilAlertMessageExports;
+    });
+  } 
+
+  _alertMessageExport(){
+    return Container(
+      color: Colors.black45,
+      child: Center(
+        child: SizedBox(
+          width: MediaQuery.of(context).size.width* 0.8,
+          height: MediaQuery.of(context).size.height* 0.3,        
+          child: Card(color: Colors.green,
+            child: ListView(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 18.0,left: 8.0,right: 8.0),
+                  child: Center(child: Text(headerExport, style:_customFont(),textAlign: TextAlign.center,)),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(18.0),
+                  child: Center(child: Text(titleExport, style:_customFont())),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top :18.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Card(
+                        color: Colors.blue,
+                        child: TextButton(
+                          style: TextButton.styleFrom(
+                          backgroundColor: Colors.transparent,
+                          shadowColor: Colors.transparent,
+                          surfaceTintColor: Colors.blue,
+                          padding: const EdgeInsets.all(10.0),
+                          textStyle: const TextStyle(fontSize: 12),
+                          ), child: const Text("Iya",style: TextStyle(color: Colors.white),),
+                          onPressed: (){
+                            launch(ApiUrl.exportExcelAbsensi, webOnlyWindowName: '_blank');
+                          },
+                        ),
+                      ),   
+                      Card(
+                        color: Colors.orangeAccent,
+                        child: TextButton(
+                          style: TextButton.styleFrom(
+                          backgroundColor: Colors.transparent,
+                          shadowColor: Colors.transparent,
+                          surfaceTintColor: Colors.blue,
+                          padding: const EdgeInsets.all(10.0),
+                          textStyle: const TextStyle(fontSize: 12),
+                          ), child: const Text('Keluar',style: TextStyle(color: Colors.white),),
+                          onPressed: (){
+                            _commandAlertMessageExport("", "", false);
+                          },
+                        ),
+                      ),                              
+                    ],
+                  ),
+                )
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 
   TextEditingController cSearch = TextEditingController();
   int _current = 0;
@@ -297,8 +372,20 @@ class _HomeState extends State<Home> {
                   child: Padding(
                     padding: const EdgeInsets.only(right: 8.0,left: 8.0),
                     child: ListTile(
-                      leading: IconButton(onPressed: (){}, icon: const Icon(Icons.download,color: Colors.white)),
-                      title: Text(
+                      leading: 
+                      headerForm == ApiUrl.detailAllUserAbsenDiKajian && level == "admin"
+                      ?IconButton(onPressed: (){
+                        _commandAlertMessageExport("Export Excel ", "Data Absensi", true);
+                      }, icon: const Icon(Icons.download,color: Colors.white))
+                      : const Icon(Icons.book_online,color: Colors.white,),
+                      title: 
+                      level == "admin"
+                      ? Text(
+                       headerForm == ApiUrl.detailAllUserAbsenDiKajian
+                        ?"Detail ${_listAbsenKajian.length} Kajian "
+                        :" ${_listAbsenKajian.length} Peserta yang hadir di kajian $gNmKajian",
+                        textAlign: TextAlign.center,style:TextStyle(color: Colors.black,fontSize: 10.0))
+                      : Text(
                        headerForm == ApiUrl.detailAllUserAbsenDiKajian
                         ?"Kajian yang dihadiri $name ada ${_listAbsenKajian.length}"
                         :" ${_listAbsenKajian.length} Peserta yang hadir di kajian $gNmKajian",
@@ -324,9 +411,13 @@ class _HomeState extends State<Home> {
                           child: ListTile(
                             leading: Text("${index+1}."),
                             title: 
+                            headerForm == ApiUrl.detailAllUserAbsenDiKajian 
+                            ? Text(_listAbsenKajian[index]!.name,textAlign: TextAlign.left,style:const TextStyle(color: Colors.black,fontSize: 12.0))
+                            : Text(_listAbsenKajian[index]!.name,textAlign: TextAlign.left,style:const TextStyle(color: Colors.black,fontSize: 12.0)),
+                            subtitle: 
                             headerForm == ApiUrl.detailAllUserAbsenDiKajian
-                            ? Text(_listAbsenKajian[index]!.nmKajian,textAlign: TextAlign.left,style:TextStyle(color: Colors.black,fontSize: 12.0))
-                            : Text(_listAbsenKajian[index]!.name,textAlign: TextAlign.left,style:TextStyle(color: Colors.black,fontSize: 12.0)),
+                            ? Text(_listAbsenKajian[index]!.nmKajian,textAlign: TextAlign.left,style:const TextStyle(color: Colors.black,fontSize: 12.0,))
+                            : const Text("",textAlign: TextAlign.left,style:TextStyle(color: Colors.black,fontSize: 12.0)),
                           ),
                         ),
                       ),
@@ -543,6 +634,9 @@ class _HomeState extends State<Home> {
             absensiForm == true
             ? _dataAbsensiAnggota()
             : Container(),
+            tampilAlertMessageExport == true
+            ? _alertMessageExport()
+            : Container(),
           ],
         ),
       ),
@@ -550,10 +644,14 @@ class _HomeState extends State<Home> {
         onPressed: 
         absensiForm == false
         ? (){
-          _openDataAbsensiAnggota(ApiUrl.detailAllUserAbsenDiKajian, true, "", "",idUsersApp,"");
+          level == "admin"
+          ? _openDataAbsensiAnggota(ApiUrl.detailAllUserAbsenDiKajian, true, "", "","","")
+          : _openDataAbsensiAnggota(ApiUrl.detailAllUserAbsenDiKajian, true, "", "",idUsersApp,"");
         }
         :(){
-          _openDataAbsensiAnggota("", false, "", "",idUsersApp,"");
+          level == "admin"
+          ? _openDataAbsensiAnggota("", false, "", "","","")
+          : _openDataAbsensiAnggota("", false, "", "",idUsersApp,"");
         },
         backgroundColor: Colors.green,
         child: absensiForm == false ? const Icon(Icons.list_rounded):const Icon(Icons.close),
