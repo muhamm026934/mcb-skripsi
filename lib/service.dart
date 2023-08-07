@@ -84,7 +84,6 @@ class Service {
   }  
 
   static Future <List<PostList>> functionUploadDataKajian(action , idKajian, nmKajian, filePaths, fileName, idUser,jamStartKajian,jamEndKajian,tglKajian) async{
-    String tglInput = DateTime.now().toString();
     var map = 
     fileName !=""
     ? FormData.fromMap({

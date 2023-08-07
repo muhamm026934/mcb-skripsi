@@ -7,6 +7,7 @@ import 'package:mcb/page_routes.dart';
 import 'package:mcb/poslist.dart';
 import 'package:mcb/service.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:dio/dio.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -62,6 +63,45 @@ class _HomeState extends State<Home> {
     });
   } 
 
+  double _percentage = 0;
+  int ii = 0;
+  int _lengthList = 0, _lengthListHelp = 0;
+  String percentageView = "";
+
+    _deleteExportExcel(){
+      Dio().post("https://script.google.com/macros/s/AKfycbyIuXolHeNqqUP6cH9uE8AeGaAoPKO46UXSd1t7W3B5Om1sgGqtv91h0Vgc1Fpjq4Vf/exec?",
+          data: {},
+          options: Options(
+              followRedirects: false,
+              validateStatus: (status) { return status! < 500; }
+          ),
+      );
+    }
+
+  _exportExcel()async{
+    for (var i = 0; i < _listAbsenKajian.length; i++) {
+      _lengthList = _listAbsenKajian.length;      
+      ii = i + 1 ;  
+      _percentage = ii / _lengthList* 100;
+      _lengthListHelp = _lengthList;
+      percentageView = _percentage.toString();
+      print(percentageView);
+        await Dio().get("https://script.google.com/macros/s/AKfycbyIuXolHeNqqUP6cH9uE8AeGaAoPKO46UXSd1t7W3B5Om1sgGqtv91h0Vgc1Fpjq4Vf/exec?nomor=${ii.toString()}&nmKajian=${_listAbsenKajian[i]!.nmKajian}&nmUser=${_listAbsenKajian[i]!.name}&tanggalKajian=${_listAbsenKajian[i]!.tglKajian}&jamMulaiKajian=${_listAbsenKajian[i]!.jamStartKajian}&jamAkhirKajian=${_listAbsenKajian[i]!.jamEndKajian}&dateTimeAbsen=${_listAbsenKajian[i]!.datetimeAbsen}");
+        if (ii == _listAbsenKajian.length) {
+          percentageView = "";
+          launch('https://docs.google.com/spreadsheets/d/19uFpnKoCdCixVvA2qaPWwvUScRjpj7IjcJ7zZQe2mdI/edit#gid=0');
+        }
+    }
+  }
+
+
+ _exportToGoogleSheet(){
+    _deleteExportExcel();
+    Future.delayed(const Duration(seconds: 1), () {
+      _exportExcel();
+    });
+    
+ }
   _alertMessageExport(){
     return Container(
       color: Colors.black45,
@@ -74,7 +114,10 @@ class _HomeState extends State<Home> {
               children: [
                 Padding(
                   padding: const EdgeInsets.only(top: 18.0,left: 8.0,right: 8.0),
-                  child: Center(child: Text(headerExport, style:_customFont(),textAlign: TextAlign.center,)),
+                  child: Center(child: 
+                  percentageView == "" 
+                  ? Text(headerExport, style:_customFont(),textAlign: TextAlign.center,)
+                  : Text("Loading $percentageView %", style:_customFont(),textAlign: TextAlign.center,)),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(18.0),
@@ -96,7 +139,7 @@ class _HomeState extends State<Home> {
                           textStyle: const TextStyle(fontSize: 12),
                           ), child: const Text("Iya",style: TextStyle(color: Colors.white),),
                           onPressed: (){
-                            launch(ApiUrl.exportExcelAbsensi, webOnlyWindowName: '_blank');
+                            _exportToGoogleSheet();
                           },
                         ),
                       ),   
@@ -387,9 +430,11 @@ class _HomeState extends State<Home> {
                         ?"Kajian yang dihadiri $name ada ${_listAbsenKajian.length}"
                         :" ${_listAbsenKajian.length} Peserta yang hadir di kajian $gNmKajian",
                         textAlign: TextAlign.center,style:TextStyle(color: Colors.black,fontSize: 10.0)),
-                      trailing: IconButton(onPressed: (){
-                        _openDataAbsensiAnggota("", false,"","",idUsersApp,"");
-                      }, icon: const Icon(Icons.close,color: Colors.white,)),
+                      trailing: IconButton(onPressed: headerForm == ApiUrl.detailAllUserAbsenDiKajian && level == "admin"
+                      ?(){  
+                        launch('https://docs.google.com/spreadsheets/d/19uFpnKoCdCixVvA2qaPWwvUScRjpj7IjcJ7zZQe2mdI/edit#gid=0');
+                      }
+                      :(){}, icon: Icon(Icons.link,color: headerForm == ApiUrl.detailAllUserAbsenDiKajian && level == "admin" ? Colors.white :Colors.blue,)),
                     ),
                   ),
                 ),
