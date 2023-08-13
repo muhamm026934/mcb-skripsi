@@ -626,7 +626,12 @@ class _HomeState extends State<Home> {
                                     height: 50,
                                     child: Image.network(ApiUrl.viewImageBuku+_listKajian[index]!.fotoKajian)),
                                   title: Text(_listKajian[index]!.nmKajian.toString(),textAlign: TextAlign.center,style:const TextStyle(color: Colors.black,fontSize: 12.0)),
-                                  trailing: IconButton(onPressed: (){      
+                                  trailing: 
+                                  idUsersApp == ""
+                                  ? IconButton(onPressed: (){
+                                    PageRoutes.routeToLogin(context);
+                                  }, icon: const Icon(Icons.login,color: Colors.white,))
+                                  : IconButton(onPressed: (){      
                                     _openDataAbsensiAnggota("Data Absensi $name", true, "", _listKajian[index]!.idKajian,"",_listKajian[index]!.nmKajian);
                                   }, icon: const Icon(Icons.list,color: Colors.black,)),
                                   subtitle: Card(
@@ -693,7 +698,10 @@ class _HomeState extends State<Home> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: 
+      idUsersApp == ""
+      ? Container()
+      : FloatingActionButton(
         onPressed: 
         absensiForm == false
         ? (){
