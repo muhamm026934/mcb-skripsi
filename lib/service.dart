@@ -84,6 +84,7 @@ class Service {
   }  
 
   static Future <List<PostList>> functionUploadDataKajian(action , idKajian, nmKajian, filePaths, fileName, idUser,jamStartKajian,jamEndKajian,tglKajian) async{
+    String tglInput = DateTime.now().toString();
     var map = 
     fileName !=""
     ? FormData.fromMap({
@@ -94,6 +95,7 @@ class Service {
         'jam_end_kajian': jamEndKajian,  
         'tgl_kajian': tglKajian,                           
         'files': MultipartFile.fromFileSync(filePaths.path, filename: fileName),
+        'datetime_now': tglInput.toString(), 
       })
       :FormData.fromMap({
         'ACTION': action,
@@ -101,7 +103,8 @@ class Service {
         'nm_kajian': nmKajian.toString(), 
         'jam_start_kajian': jamStartKajian,  
         'jam_end_kajian': jamEndKajian,  
-        'tgl_kajian': tglKajian,                 
+        'tgl_kajian': tglKajian,          
+        'datetime_now': tglInput.toString(),       
       });
     var dio = Dio();
     final response = 
@@ -118,6 +121,7 @@ class Service {
   }   
   
   static Future<List<PostList>> getDataKajian(action,idKajian,nmKajian,fotoKajian,jamStartKajian,jamEndKajian,tglKajian,idUsersApp) async{
+    String tglInput = DateTime.now().toString();
     var map = FormData.fromMap({
         'ACTION': action.toString(),
         'id_kajian': idKajian.toString(),
@@ -127,6 +131,7 @@ class Service {
         'jam_end_kajian': jamEndKajian.toString(),
         'tgl_kajian': tglKajian.toString(),
         'id_user': idUsersApp.toString(),
+        'datetime_now': tglInput.toString(), 
       });  
     var dio = Dio();
     final response = await dio.post(ApiUrl.viewDataKajian, data: map);

@@ -24,6 +24,7 @@ class PostList {
 
   late String idAbsensi;
   late String datetimeAbsen;
+  late String notes;
 
   PostList({
     required this.idUser,
@@ -49,6 +50,7 @@ class PostList {
 
     required this.idAbsensi,
     required this.datetimeAbsen,
+    required this.notes
   });
 
   factory PostList.fromJsons(Map<String,dynamic> json){
@@ -76,6 +78,8 @@ class PostList {
 
       idAbsensi: json['id_absensi'] ?? "",   
       datetimeAbsen: json['datetime_absen'] ?? "",   
+
+      notes: json['notes'] ?? "", 
 
 
       );

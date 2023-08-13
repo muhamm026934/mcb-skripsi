@@ -1,6 +1,6 @@
 class ApiUrl {
-  static String servers = "http://192.168.1.6:8080/mcb-api";
-  static String server = "http://star46.site/mcb-api";
+  static String server = "http://192.168.1.5:8080/mcb-api";
+  static String servers = "http://star46.site/mcb-api";
   static String tambahUserText = "Tambah User";
   static String editUserText = "Edit User";
   static String deleteUserText = "Hapus Data User";
@@ -39,5 +39,9 @@ class ApiUrl {
 
   static String exportExcel = "export_excel";
   static String exportExcelAbsensi = "$server/$exportExcel/export_absensi.php";
+
+  static String kajianMulai = "Pengajian Belum Dimulai";
+  static String kajianAkhir = "Pengajian Telah Berakhir";
+  static String silahkanAbsen = "Silahkan Absen";
   
 }

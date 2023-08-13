@@ -123,7 +123,8 @@ class _KanjianState extends State<Kanjian> {
       _messageUpload = value;
       _loading = false;
       message = _messageUpload[0]!.message.toString();
-      values = _messageUpload[0]!.value.toString();    
+      values = _messageUpload[0]!.value.toString();   
+      print("object $values"); 
       
       if (values == "1") {
         setState(() {
@@ -132,6 +133,7 @@ class _KanjianState extends State<Kanjian> {
           _commandFormUpdateAdd("", false);
           _getDataKajian("");
           txtFilePicker = "";
+          filePickerVal = null;
           _messageUpload.clear();
           message ="";
           values ="";
@@ -139,8 +141,8 @@ class _KanjianState extends State<Kanjian> {
         });
       }else{
         setState(() {
-        _commandAlertMessage("", "", false);
-        _commandAlertMessageResponse(values, message, true);          
+        _commandAlertMessage(headerText, "", true);
+        _commandAlertMessageResponse(values, message, true);            
         });
       }
     });

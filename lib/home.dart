@@ -273,6 +273,8 @@ class _HomeState extends State<Home> {
   }
 
  
+ DateTime _checkDate = DateTime.now();
+
  String message = "", values = "";
  List<PostList?> _messageUpload = [];
  _functionUploadDataAbsensi(action,cIdAbsensi,cIdKajian) async{
@@ -285,7 +287,8 @@ class _HomeState extends State<Home> {
       _messageUpload = value;
       _loading = false;
       message = _messageUpload[0]!.message.toString();
-      values = _messageUpload[0]!.value.toString();    
+      values = _messageUpload[0]!.value.toString(); 
+      print(message);
       
       if (values == "1") {
         setState(() {
@@ -636,25 +639,33 @@ class _HomeState extends State<Home> {
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: ElevatedButton(
-                                    onPressed: (){
+                                    onPressed: 
+                                    _listKajian[index]!.notes.toString() == ApiUrl.silahkanAbsen
+                                    ?(){
                                       setState(() {
                                         idKajians = _listKajian[index]!.idKajian;
                                         idAbsensis = _listKajian[index]!.idAbsensi;
                                       });
                                       _commandAlertMessage(_listKajian[index]!.nmKajian.toString(), 
                                       _listKajian[index]!.idAbsensi.toString() == "" ? ApiUrl.confimAbsen : ApiUrl.cancelAbsen, true);
-                                    },
+                                    }
+                                    :(){},
                                     style: ElevatedButton.styleFrom(
-                                      backgroundColor: _listKajian[index]!.idAbsensi.toString() == "" ?Colors.orange:Colors.blue,
+                                      backgroundColor: _listKajian[index]!.notes.toString() == ApiUrl.silahkanAbsen 
+                                      ? _listKajian[index]!.idAbsensi.toString() == "" ?Colors.green:Colors.blue
+                                      :Colors.orange,
                                       shape: RoundedRectangleBorder(
                                           borderRadius: BorderRadius.circular(50),
                                         )
                                       ), 
-                                    child:  Text(
+                                    child:  
+                                    _listKajian[index]!.notes.toString() == ApiUrl.silahkanAbsen
+                                    ?Text(
                                       _listKajian[index]!.idAbsensi.toString() == ""
                                       ? "Silahkan Absen ${_listKajian[index]!.idAbsensi.toString()}"
                                       :"Anda Sudah Absen"
-                                      ,style:const TextStyle(color: Colors.black,fontSize: 12.0)),
+                                      ,style:const TextStyle(color: Colors.black,fontSize: 12.0))
+                                      : Text(_listKajian[index]!.notes.toString() ,style:const TextStyle(color: Colors.black,fontSize: 12.0)),
                                     ),
                                 ),
                               ],
